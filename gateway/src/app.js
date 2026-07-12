@@ -5,9 +5,30 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const Redis = require("ioredis");
 
 const { connect: connectRabbitMQ } = require("./config/rabbitmq");
 const { connect: connectRedis } = require("./config/redis");
+// Subscribe to Redis for in-app notification delivery
+const subscriber = new Redis({
+  host: process.env.REDIS_HOST || "localhost",
+  port: process.env.REDIS_PORT || 6379,
+});
+
+subscriber.psubscribe("user:*", (err) => {
+  if (err) console.error("[Redis] Subscribe error:", err.message);
+  else console.log("[Redis] Subscribed to user notification channels");
+});
+
+subscriber.on("pmessage", (pattern, channel, message) => {
+  // channel = "user:USER_ID"
+  const userId = channel.split(":")[1];
+  const data = JSON.parse(message);
+
+  // Emit to the Socket.io room for this user
+  io.to(`user:${userId}`).emit("notification", data);
+  console.log(`[Gateway] Pushed notification to user ${userId}`);
+});
 
 const authRoutes = require("./routes/authRoutes");
 const eventsRoutes = require("./routes/eventsRoutes");
