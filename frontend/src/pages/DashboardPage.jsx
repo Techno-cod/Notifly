@@ -109,18 +109,39 @@ function DashboardPage() {
           ) : (
             <div className="space-y-3">
               {notifications.map((n) => (
-                <div key={n.id} className="border border-slate-100 rounded-xl p-4 animate-in fade-in slide-in-from-top-2">
-                  <div className="flex justify-between items-start">
-                    <span className="text-sm font-medium text-slate-900">{n.type}</span>
-                    <span className="text-xs text-slate-400">
-                      {new Date(n.receivedAt).toLocaleTimeString()}
-                    </span>
-                  </div>
-                  <pre className="text-xs text-slate-500 mt-2 bg-slate-50 rounded-lg p-2 overflow-x-auto">
-                    {JSON.stringify(n.payload, null, 2)}
-                  </pre>
-                </div>
-              ))}
+  <div key={n.id} className="border border-slate-100 rounded-xl p-4 animate-in fade-in slide-in-from-top-2">
+    <div className="flex justify-between items-start">
+      <div className="flex items-center gap-2">
+        <span className="text-sm font-medium text-slate-900">{n.type}</span>
+        {n.digest && (
+          <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+            📦 Digest — {n.count} items
+          </span>
+        )}
+      </div>
+      <span className="text-xs text-slate-400">
+        {new Date(n.receivedAt).toLocaleTimeString()}
+      </span>
+    </div>
+
+    {n.digest ? (
+      <div className="mt-2">
+        <p className="text-sm text-slate-600 mb-2">{n.payload.summary}</p>
+        <div className="space-y-1">
+          {n.payload.items.map((item, i) => (
+            <pre key={i} className="text-xs text-slate-500 bg-amber-50 rounded-lg p-2 overflow-x-auto">
+              {JSON.stringify(item, null, 2)}
+            </pre>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <pre className="text-xs text-slate-500 mt-2 bg-slate-50 rounded-lg p-2 overflow-x-auto">
+        {JSON.stringify(n.payload, null, 2)}
+      </pre>
+    )}
+  </div>
+))}
             </div>
           )}
         </div>

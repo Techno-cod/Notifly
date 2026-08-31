@@ -9,39 +9,21 @@ const Redis = require("ioredis");
 
 const { connect: connectRabbitMQ } = require("./config/rabbitmq");
 const { connect: connectRedis } = require("./config/redis");
-// Subscribe to Redis for in-app notification delivery
-const subscriber = new Redis({
-  host: process.env.REDIS_HOST || "localhost",
-  port: process.env.REDIS_PORT || 6379,
-});
-
-subscriber.psubscribe("user:*", (err) => {
-  if (err) console.error("[Redis] Subscribe error:", err.message);
-  else console.log("[Redis] Subscribed to user notification channels");
-});
-
-subscriber.on("pmessage", (pattern, channel, message) => {
-  // channel = "user:USER_ID"
-  const userId = channel.split(":")[1];
-  const data = JSON.parse(message);
-
-  // Emit to the Socket.io room for this user
-  io.to(`user:${userId}`).emit("notification", data);
-  console.log(`[Gateway] Pushed notification to user ${userId}`);
-});
 
 const authRoutes = require("./routes/authRoutes");
 const eventsRoutes = require("./routes/eventsRoutes");
+const preferencesRoutes = require("./routes/preferencesRoutes");
+const notificationsRoutes = require("./routes/notificationsRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 
 const app = express();
 const server = http.createServer(app);
 
-// Socket.io setup
+// Socket.io setup — declared before anything references it
 const io = new Server(server, {
   cors: { origin: "*" },
 });
 
-// Make io available to controllers
 app.set("io", io);
 
 // Middleware
@@ -53,17 +35,18 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/events", eventsRoutes);
+app.use("/api/preferences", preferencesRoutes);
+app.use("/api/notifications", notificationsRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
-// Health check
 app.get("/health", (req, res) => {
   res.json({ status: "ok", service: "gateway", ts: new Date().toISOString() });
 });
 
-// Socket.io connection
+// Socket.io connection handling
 io.on("connection", (socket) => {
   console.log(`[Socket] Client connected: ${socket.id}`);
 
-  // Client sends their userId to subscribe to their notifications
   socket.on("subscribe", (userId) => {
     socket.join(`user:${userId}`);
     console.log(`[Socket] User ${userId} subscribed`);
@@ -74,7 +57,24 @@ io.on("connection", (socket) => {
   });
 });
 
-// Start
+// Redis subscriber for cross-service in-app delivery — created after io exists
+const subscriber = new Redis({
+  host: process.env.REDIS_HOST || "localhost",
+  port: process.env.REDIS_PORT || 6379,
+});
+
+subscriber.psubscribe("user:*", (err) => {
+  if (err) console.error("[Redis] Subscribe error:", err.message);
+  else console.log("[Redis] Subscribed to user notification channels");
+});
+
+subscriber.on("pmessage", (pattern, channel, message) => {
+  const userId = channel.split(":")[1];
+  const data = JSON.parse(message);
+  io.to(`user:${userId}`).emit("notification", data);
+  console.log(`[Gateway] Pushed notification to user ${userId}`);
+});
+
 const PORT = process.env.PORT || 3000;
 
 const start = async () => {
