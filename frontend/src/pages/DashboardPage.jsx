@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { io } from "socket.io-client";
 import { sendEvent } from "../services/api";
 
@@ -79,6 +79,9 @@ function DashboardPage() {
               <span className={`w-1.5 h-1.5 rounded-full ${connected ? "bg-green-500" : "bg-red-500"}`}></span>
               {connected ? "Live" : "Disconnected"}
             </span>
+            <Link to="/analytics" className="text-sm text-slate-500 hover:text-slate-800 underline">
+              📊 Analytics
+            </Link>
             <button onClick={handleLogout} className="text-sm text-slate-500 hover:text-slate-800">
               Logout
             </button>

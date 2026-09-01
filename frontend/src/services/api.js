@@ -24,5 +24,9 @@ export const sendEvent = async (data) => {
   const res = await API.post("/events", data);
   return res.data;
 };
+export const getAnalytics = async () => {
+  const res = await API.get("/analytics");
+  return res.data;
+};
 
 export default API;
