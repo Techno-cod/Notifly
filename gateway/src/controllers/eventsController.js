@@ -27,7 +27,7 @@ const ingestEvent = async (req, res) => {
       userId,
       data,
       idempotencyKey,
-      timestamp: new Date().toISOString(),
+      queuedAt: new Date().toISOString(),
     });
 
     channel.sendToQueue("notifications", Buffer.from(message), {

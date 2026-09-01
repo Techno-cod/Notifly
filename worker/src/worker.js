@@ -55,14 +55,17 @@ const getPreference = async (userId, eventType, channel) => {
 };
 
 // ── Save notification status to DB ─────────────────────────────────
-const saveNotification = async ({ userId, eventType, channel, payload, idempotencyKey, status, error }) => {
+const saveNotification = async ({ userId, eventType, channel, payload, idempotencyKey, status, error, queuedAt }) => {
   await pool.query(
     `INSERT INTO notifications
-       (user_id, event_type, channel, payload, status, idempotency_key, sent_at, error)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+       (user_id, event_type, channel, payload, status, idempotency_key, queued_at, sent_at, error)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
     [
       userId, eventType, channel, JSON.stringify(payload), status,
-      idempotencyKey, status === "sent" ? new Date() : null, error || null,
+      idempotencyKey,
+      queuedAt ? new Date(queuedAt) : new Date(),
+      status === "sent" ? new Date() : null,
+      error || null,
     ]
   );
 };
@@ -230,7 +233,7 @@ const deliverChannel = async (channel, userId, eventType, payload) => {
 };
 
 const processChannel = async (channel, job) => {
-  const { type, userId, data, idempotencyKey, attempts = 0 } = job;
+  const { type, userId, data, idempotencyKey, attempts = 0, queuedAt } = job;
   const channelIdemKey = `${idempotencyKey}:${channel}`;
 
   const pref = await getPreference(userId, type, channel);
@@ -296,7 +299,7 @@ const processMessage = async (msg, channel) => {
     return;
   }
 
-  const { type, userId, idempotencyKey } = job;
+  const { type, userId, idempotencyKey, queuedAt } = job;
   console.log(`[Worker] Processing: ${type} for user ${userId}`);
 
   if (await isAlreadyProcessed(idempotencyKey)) {
