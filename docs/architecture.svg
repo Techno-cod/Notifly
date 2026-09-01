@@ -1,0 +1,65 @@
+<svg width="680" height="534" viewBox="0 0 680 534" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<rect width="680" height="534" fill="#ffffff"/>
+
+<line x1="340" y1="74" x2="340" y2="92" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="240" y="30" width="200" height="44" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="340" y="56" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#2C2C2A">Browser</text>
+
+<line x1="155" y1="150" x2="155" y2="168" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="340" y1="150" x2="340" y2="168" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="525" y1="150" x2="525" y2="168" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="240" y="94" width="200" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="340" y="116" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#2C2C2A">Nginx</text>
+<text x="340" y="134" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#444441">Sticky sessions</text>
+
+<line x1="155" y1="226" x2="340" y2="244" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="340" y1="226" x2="340" y2="244" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="525" y1="226" x2="340" y2="244" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+
+<rect x="80" y="170" width="150" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="155" y="192" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#042C53">Gateway :3001</text>
+<text x="155" y="210" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0C447C">Express + Socket.io</text>
+
+<rect x="265" y="170" width="150" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="340" y="192" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#042C53">Gateway :3002</text>
+<text x="340" y="210" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0C447C">Express + Socket.io</text>
+
+<rect x="450" y="170" width="150" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="525" y="192" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#042C53">Gateway :3003</text>
+<text x="525" y="210" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0C447C">Express + Socket.io</text>
+
+<line x1="340" y1="302" x2="340" y2="340" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="240" y="246" width="200" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="340" y="268" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#412402">RabbitMQ</text>
+<text x="340" y="286" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#633806">Durable queue</text>
+
+<line x1="155" y1="398" x2="155" y2="436" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="340" y1="398" x2="340" y2="436" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="525" y1="398" x2="525" y2="436" stroke="#73726c" stroke-width="1" marker-end="url(#arrow)"/>
+
+<rect x="240" y="342" width="200" height="56" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="340" y="364" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#4A1B0C">Worker</text>
+<text x="340" y="382" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#712B13">Retry + digest</text>
+
+<rect x="80" y="438" width="150" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="155" y="460" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#26215C">Redis</text>
+<text x="155" y="478" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#3C3489">Pub/Sub, dedup</text>
+
+<rect x="265" y="438" width="150" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="340" y="460" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#04342C">PostgreSQL</text>
+<text x="340" y="478" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#085041">Notifications</text>
+
+<rect x="450" y="438" width="150" height="56" rx="8" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+<text x="525" y="460" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#4B1528">SendGrid</text>
+<text x="525" y="478" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#72243E">Email delivery</text>
+
+<path d="M80,460 C 30,460 30,200 78,198" fill="none" stroke="#7F77DD" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="50" y="330" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#444441">cross</text>
+<text x="50" y="344" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#444441">instance</text>
+<text x="50" y="358" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#444441">deliver</text>
+</svg>
