@@ -21,7 +21,7 @@ function DashboardPage() {
     setUser(parsedUser);
 
     // Connect to Socket.io
-    const socket = io("http://localhost:3000");
+    const socket = io("http://localhost:8080");
     socketRef.current = socket;
 
     socket.on("connect", () => {
